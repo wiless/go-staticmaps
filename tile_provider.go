@@ -14,10 +14,18 @@ type TileProvider struct {
 	TileSize    int
 	URLPattern  string // "%[1]s" => shard, "%[2]d" => zoom, "%[3]d" => x, "%[4]d" => y
 	Shards      []string
+	apiKey 	    string
 }
 
 func (t *TileProvider) getURL(shard string, zoom, x, y int) string {
 	return fmt.Sprintf(t.URLPattern, shard, zoom, x, y)
+}
+
+func (t *TileProvider) SetAPIkey(key string){
+	t.apiKey=key
+	// Insert condition check for thunderforest
+	t.URLPattern=t.URLPattern+"?apikey="+t.apiKey
+	// Other providers may have different way to pass the API key
 }
 
 // NewTileProviderOpenStreetMaps creates a TileProvider struct for OSM's tile service
